@@ -21,3 +21,5 @@ To remedy this true NLP would have to be implemented.
 
 Selection of what a paragraph is can also be improved, I chose to separate them at every "\n". I tried separating them by
 tags, however this resulted in getting enormous summaries which included footers of webpages, and were terrible summaries.
+
+I also could have taken a few of the most important sentences in the text of the webpages and assembled them into one paragraph. This resulted in paragraphs with very little flow from very different parts of the webpage, also resulting in a poor summary.
