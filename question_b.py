@@ -6,8 +6,7 @@ def sanitize_input(str):
     str = " ".join(re.split("\s+", str, flags=re.UNICODE))
     str = " ".join(re.split(",{2,}", str, flags=re.UNICODE))
     if str.count(',') > 1 or str.count(' ') > 1:
-        print("You must only enter two numebrs")
-        return -1
+        return "You must only enter two numbers"
     try:
         if ',' in str:
             num_1 = str.replace(' ', '').split(',')[0]
@@ -30,22 +29,16 @@ def sanitize_input(str):
         return "%g is %s %g" % (num_1, comparator, num_2)
     except ValueError:
         # Values entered were not floats or ints
-        print("You must enter numbers.")
-        return -1
+        return "You must enter numbers"
     except IndexError:
         # Checks if user only entered one number
-        print("You must enter two numbers")
-        return -1
-    except:
-        # Should never execute
-        print("Invalid input.")
-        return -1
+        return "You must enter two numbers"
 
 
 def request_input():
     s = input("Numbers to compare: ")
     res = sanitize_input(s)
-    if res != -1:
+    if any(char.isdigit() for char in res):
         print(res)
         return res
     else:
@@ -53,4 +46,21 @@ def request_input():
 
 
 if __name__ == "__main__":
+    assert (sanitize_input("5,1") == "5 is larger than 1")
+    assert (sanitize_input("5, 1") == "5 is larger than 1")
+    assert (sanitize_input("5 1") == "5 is larger than 1")
+    assert (sanitize_input("5.9   1") == "5.9 is larger than 1")
+    assert (sanitize_input("5,,,,1") == "5 is larger than 1")
+    assert (sanitize_input("5.1,1.3") == "5.1 is larger than 1.3")
+    assert (sanitize_input("5,1") == "5 is larger than 1")
+    assert (sanitize_input("5,1") == "5 is larger than 1")
+    assert (sanitize_input("1.8,    9") == "1.8 is smaller than 9")
+    assert (sanitize_input("-2, -1") == "-2 is smaller than -1")
+    assert (sanitize_input("0 0") == "0 is equal to 0")
+    assert (sanitize_input("0,") == "You must enter two numbers")
+    assert (sanitize_input("seven,") == "You must enter two numbers")
+    assert (sanitize_input(",9") == "You must enter two numbers")
+    assert (sanitize_input("abc,") == "You must enter two numbers")
+    assert (sanitize_input("help") == "You must enter numbers")
+    assert (sanitize_input("1,2,3") == "You must only enter two numbers")
     request_input()
